@@ -1,9 +1,10 @@
-package main.java.com.bobax.product_service.service;
+package com.bobax.product_service.service;
 
-import com.bobax.product.model.Category;
-import com.bobax.product.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.bobax.product_service.model.Category;
+import com.bobax.product_service.repository.CategoryRepository;
 
 import java.util.List;
 import java.util.Optional;

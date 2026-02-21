@@ -1,8 +1,9 @@
-package main.java.com.bobax.product_service.repository;
+package com.bobax.product_service.repository;
 
-import com.bobax.product.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.bobax.product_service.model.Category;
 
 import java.util.Optional;
 

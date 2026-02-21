@@ -1,12 +1,13 @@
-package main.java.com.bobax.product_service.service;
+package com.bobax.product_service.service;
 
-import com.bobax.product.dto.ProductDTO;
-import com.bobax.product.model.Category;
-import com.bobax.product.model.Product;
-import com.bobax.product.repository.CategoryRepository;
-import com.bobax.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.bobax.product_service.dto.ProductDTO;
+import com.bobax.product_service.model.Category;
+import com.bobax.product_service.model.Product;
+import com.bobax.product_service.repository.CategoryRepository;
+import com.bobax.product_service.repository.ProductRepository;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,11 +1,12 @@
-package main.java.com.bobax.product_service.controller;
+package com.bobax.product_service.controller;
 
-import com.bobax.product.dto.ProductDTO;
-import com.bobax.product.model.Product;
-import com.bobax.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.bobax.product_service.dto.ProductDTO;
+import com.bobax.product_service.model.Product;
+import com.bobax.product_service.service.ProductService;
 
 import java.util.List;
 

@@ -1,10 +1,12 @@
-package main.java.com.bobax.product_service.controller;
+package com.bobax.product_service.controller;
 
-import com.bobax.product.model.Category;
-import com.bobax.product.service.CategoryService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.bobax.product_service.model.Category;
+import com.bobax.product_service.service.CategoryService;
 
 import java.util.List;
 
