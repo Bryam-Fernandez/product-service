@@ -1,11 +1,12 @@
 package com.bobax.product_service.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.bobax.product_service.dto.ProductDTO;
-import com.bobax.product_service.model.Product;
+import com.bobax.product_service.model.Producto;
 import com.bobax.product_service.service.ProductService;
 
 import java.util.List;
@@ -13,59 +14,69 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
+	
+	private final ProductService productoService;
 
-    @Autowired
-    private ProductService productService;
+	    public ProductController(ProductService productoService) {
+	        this.productoService = productoService;
+	    }
 
-    @GetMapping
-    public ResponseEntity<List<ProductDTO>> getAllProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
-    }
+	    // LISTAR PAGINADO
+	    @GetMapping
+	    public Page<Producto> listar(
+	            @RequestParam(defaultValue = "0") int page,
+	            @RequestParam(defaultValue = "10") int size) {
 
-    @GetMapping("/available")
-    public ResponseEntity<List<ProductDTO>> getAvailableProducts() {
-        return ResponseEntity.ok(productService.getAvailableProducts());
-    }
+	        return productoService.listarPaginado(page, size);
+	    }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getProductById(@PathVariable Long id) {
-        return productService.getProductById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
+	    // BUSCAR
+	    @GetMapping("/buscar")
+	    public Page<Producto> buscar(
+	            @RequestParam String q,
+	            @RequestParam(defaultValue = "0") int page,
+	            @RequestParam(defaultValue = "10") int size) {
 
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<ProductDTO>> getProductsByCategory(@PathVariable Long categoryId) {
-        return ResponseEntity.ok(productService.getProductsByCategory(categoryId));
-    }
+	        return productoService.buscarPorNombreOSkuPaginado(q, page, size);
+	    }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<ProductDTO>> searchProducts(@RequestParam String name) {
-        return ResponseEntity.ok(productService.searchProducts(name));
-    }
+	    // OBTENER POR ID
+	    @GetMapping("/{id}")
+	    public Producto obtener(@PathVariable Long id) {
+	        return productoService.getProductoById(id);
+	    }
 
-    @PostMapping
-    public ResponseEntity<?> createProduct(@RequestBody Product product, @RequestParam Long categoryId) {
-        try {
-            return ResponseEntity.ok(productService.createProduct(product, categoryId));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
+	    // CREAR
+	    @PostMapping
+	    public Producto crear(
+	            @RequestBody Producto producto,
+	            @RequestParam Long categoriaId) {
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody Product product, 
-                                        @RequestParam(required = false) Long categoryId) {
-        try {
-            return ResponseEntity.ok(productService.updateProduct(id, product, categoryId));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
+	        return productoService.crear(producto, categoriaId);
+	    }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
-        return ResponseEntity.ok("Producto eliminado");
-    }
+	    // ACTUALIZAR
+	    @PutMapping("/{id}")
+	    public Producto actualizar(
+	            @PathVariable Long id,
+	            @RequestBody Producto producto,
+	            @RequestParam Long categoriaId) {
+
+	        return productoService.actualizar(id, producto, categoriaId);
+	    }
+
+	    // CAMBIAR ESTADO
+	    @PatchMapping("/{id}/estado")
+	    public void cambiarEstado(
+	            @PathVariable Long id,
+	            @RequestParam boolean habilitado) {
+
+	        productoService.habilitar(id, habilitado);
+	    }
+
+	    // ELIMINAR
+	    @DeleteMapping("/{id}")
+	    public void eliminar(@PathVariable Long id) {
+	        productoService.eliminar(id);
+	    }
 }
